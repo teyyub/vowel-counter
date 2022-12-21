@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.task.WordData;
+import com.task.exceptions.EmptyFileNameException;
 
-public class FileUtils {
+public class FileUtils { 
 
-    // private FileUtils(){}
     static String SPLIT_PATTERN ="[^a-zA-Z0-9\\-\'\\_]";
     static String MATCH_PATTERN ="^[a-zA-Z0-9\\-'\\_]{1,}$";
     public static List<String> readWords(String fileName) {
+ 
+        validateFileName(fileName);
         List<String> words = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
@@ -40,6 +42,12 @@ public class FileUtils {
         }
          catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void validateFileName(String fileName) {
+        if (fileName.equals("")) {
+            throw new EmptyFileNameException();
         }
     }
 }
